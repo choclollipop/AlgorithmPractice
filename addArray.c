@@ -13,6 +13,7 @@ int main()
     scanf("%d",&count);
     /* 动态分配数组的长度，并判断长度不能小于2 */
     p_num = (int *)malloc(sizeof(int) * count);
+
     if(count < 2)
     {
         printf("输入数据不合法\n");
