@@ -5,6 +5,7 @@
 #define BUFFER_SIZE8 8
 #define BUFFER_SIZE5 5
 
+/* 将两个不连续有序递增数组合并到一起，一边合并一边排序 */
 int * bubbleSort(int * ptr, int size)
 {
     /* 冒泡排序 */
@@ -27,31 +28,37 @@ int * bubbleSort(int * ptr, int size)
 int * mergeOrder(int * num1, int num1Size, int * num2, int num2Size, int * newNumSize)
 {
     int * newNum = (int *)malloc(sizeof(int) * (*newNumSize));
+    int pos = 0, sub = 0;
     if(!newNum)
     {
         return 0;
     }
-    /* 拼接字符串 */
-    for(int idx = 0; idx < num1Size; idx++)
-    {
-        newNum[idx] = num1[idx];
-    }
 
-    for(int idx = 0; idx < num2Size; idx++)
-    {
-        newNum[idx + num1Size] = num2[idx];
-    }
-
-    /* 打印拼接好的数组 */
+    /* 一边排序一边插入到新的数组 */
     for(int idx = 0; idx < *newNumSize; idx++)
     {
-        printf("%d ", newNum[idx]);
+        if(num2[pos] < num1[sub])
+        {
+            /* 进入if语句中表示数组2 来到了最后，则直接将数组1的值依次赋值给新数组 */
+            if(num2Size == pos)
+            {
+                pos = num2Size - 1;
+                newNum[idx] = num1[sub];
+                sub++;
+            }
+            else
+            {
+                newNum[idx] = num2[pos];
+                pos++;
+            }
+        }
+        else
+        {
+            newNum[idx] = num1[sub];
+            sub++;
+        }
     }
 
-    printf("\n");
-
-    newNum = bubbleSort(newNum, *newNumSize);
-    
     return newNum;
 }
 
