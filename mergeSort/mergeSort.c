@@ -4,6 +4,7 @@
 #define BUFFER_SIZE 5
 #define COLUMN sizeof("zhangsan")
 
+/* 比较数组中存储的字符串大小，并对其进行排序 */
 int main()
 {
     /* 这是一个名为array3的二级指针，也可以理解为二维数组 */
