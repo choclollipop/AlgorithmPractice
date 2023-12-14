@@ -1,6 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/* 判断输入的字符串除去空格后是回文字符串，回文字符串：即字符串反转后对应位置的字母相同，可以是一个字母的大小写 */
+#define DIFFERENCE 32
+
+typedef enum STATUS_CODE
+{
+    ON_MALLOCERROR = -1,
+}STATUS_CODE;
+
 int main()
 {
     int count = 0;
@@ -14,7 +22,7 @@ int main()
     array = (char *)malloc(sizeof(char) * (count + 1));
     if(!array)
     {
-        return -1;
+        return ON_MALLOCERROR;
     }
 
     getc(stdin);
@@ -41,7 +49,12 @@ int main()
     count = count - space;
 
     pos = 0;
+    /* 给倒置后的数组分配空间 */
     reverse = (char *)malloc(sizeof(char) * (count + 1));
+    if(!reverse)
+    {
+        return ON_MALLOCERROR;
+    }
 
     for(int idx = count - 1; idx >= 0; idx--)
     {
@@ -49,10 +62,10 @@ int main()
         pos++;
     }
 
-
+    /* 判断对应位置是否相同或是否是同一字母的大小写 */
     for(int idx = 0; idx < count; idx++)
     {
-        if((array[idx] - reverse[idx] == 0) || (array[idx] - reverse[idx] == 32 || array[idx] - reverse[idx] == -32))
+        if((array[idx] - reverse[idx] == 0) || array[idx] - reverse[idx] == DIFFERENCE || array[idx] - reverse[idx] == -DIFFERENCE)
         {
             if(idx == count - 1)
             {
