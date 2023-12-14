@@ -6,7 +6,8 @@
 
 typedef enum STATUS_CODE
 {
-    ON_MALLOCERROR = -1,
+    ON_MALLOCERROR = -2,
+    ON_FREE_ERROR = -1,
 }STATUS_CODE;
 
 int main()
@@ -15,7 +16,6 @@ int main()
     int pos = 0;
     int space = 0;
     char * array = NULL;
-    char * reverse = NULL;
 
     printf("请输入你想判断的字符串的个数：\n");
     scanf("%d", &count);
@@ -47,41 +47,32 @@ int main()
 
     /* 新的长度 */
     count = count - space;
+    pos = pos - 1;
 
-    pos = 0;
-    /* 给倒置后的数组分配空间 */
-    reverse = (char *)malloc(sizeof(char) * (count + 1));
-    if(!reverse)
-    {
-        return ON_MALLOCERROR;
-    }
-
-    for(int idx = count - 1; idx >= 0; idx--)
-    {
-        reverse[pos] = array[idx];
-        pos++;
-    }
-
-    /* 判断对应位置是否相同或是否是同一字母的大小写 */
+    /* 直接判断删除空格后的字符串是否是回文串，前后相减 */
     for(int idx = 0; idx < count; idx++)
     {
-        if((array[idx] - reverse[idx] == 0) || array[idx] - reverse[idx] == DIFFERENCE || array[idx] - reverse[idx] == -DIFFERENCE)
+        if((array[idx] - array[pos] == 0) || (array[idx] - array[pos] == DIFFERENCE) || (array[idx] - array[pos] == -DIFFERENCE))
         {
-            if(idx == count - 1)
+            if(idx + 1 == pos || idx == pos)
             {
-                printf("输入的字符串是回文字符串\n");
+                printf("输入的字符串是回文串\n");
             }
         }
         else
         {
-            printf("输入的字符不是回文字符串\n");
+            printf("输入的字符串不是回文串\n");
             break;
         }
+        pos--;
     }
 
 
     free(array);
-    free(reverse);
+    if(!array)
+    {
+        return ON_FREE_ERROR;
+    }
 
     return 0;
 }
