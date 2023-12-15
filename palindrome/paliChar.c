@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 /* 判断输入的字符串除去空格后是回文字符串，回文字符串：即字符串反转后对应位置的字母相同，可以是一个字母的大小写 */
 #define DIFFERENCE 32
