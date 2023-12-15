@@ -24,17 +24,23 @@ int main()
     {
         return ON_MALLOCERROR;
     }
+    /* 初始化malloc的空间 */
+    memset(array, 0, sizeof(int) * (count + 1));
 
     getc(stdin);
     printf("请输入你想判断的字符串：\n");
     fgets(array, count + 1, stdin);
 
 
-    /* 删除空格 */
+    /* 删除空格,同时更改字符串内的大小写 */
     for(int idx = 0; idx < count; idx++)
     {
-        if(array[idx] != 32)
+        if(array[idx] != ' ')
         {
+            if(array[idx] >= 'a' && array[idx] <= 'z')
+            {
+                array[idx] = array[idx] - DIFFERENCE;
+            }
             array[pos] = array[idx];
             pos++;
         }
@@ -52,7 +58,7 @@ int main()
     /* 直接判断删除空格后的字符串是否是回文串，前后相减 */
     for(int idx = 0; idx < count; idx++)
     {
-        if((array[idx] - array[pos] == 0) || (array[idx] - array[pos] == DIFFERENCE) || (array[idx] - array[pos] == -DIFFERENCE))
+        if((array[idx] - array[pos] == 0))
         {
             if(idx + 1 == pos || idx == pos)
             {
